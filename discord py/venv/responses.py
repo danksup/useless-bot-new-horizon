@@ -18,9 +18,8 @@ import datetime
 
 from huggingface_hub import InferenceClient
 
-# Hugging Face setup
-HF_API_TOKEN = "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"
-model_name = "meta-llama/Llama-2-7b-chat-hf"  # Replace with the model of your choice
+HF_API_TOKEN = "silly"
+model_name = "meta-llama/Llama-2-7b-chat-hf"  
 inference_client = InferenceClient(token=HF_API_TOKEN)
 
 DAFTAR_FILE_PATH = 'daftar_messages.txt'
@@ -142,10 +141,8 @@ async def get_response(user_input: str, message, bot) -> str:
                 if not messages:
                     return "papan kosong."
 
-                # Remove the first (oldest) message
                 messages.pop(0)
 
-                # Write the updated list of messages back to the file
                 with open(DAFTAR_FILE_PATH, 'w') as file:
                     file.writelines(messages)
 
@@ -153,7 +150,6 @@ async def get_response(user_input: str, message, bot) -> str:
             except Exception as e:
                 return f"Failed to remove message: {str(e)}"
 
-        # Handle `head` command to remove the last message (most recent)
         elif command == 'head':
             try:
                 with open(DAFTAR_FILE_PATH, 'r') as file:
@@ -162,10 +158,8 @@ async def get_response(user_input: str, message, bot) -> str:
                 if not messages:
                     return "papan kosong"
 
-                # Remove the last (most recent) message
                 messages.pop()
 
-                # Write the updated list of messages back to the file
                 with open(DAFTAR_FILE_PATH, 'w') as file:
                     file.writelines(messages)
 
@@ -173,22 +167,20 @@ async def get_response(user_input: str, message, bot) -> str:
             except Exception as e:
                 return f"Failed to remove message: {str(e)}"
 
-        # Handle `removeall` command to remove all messages
         elif command == 'removeall':
             try:
                 with open(DAFTAR_FILE_PATH, 'w') as file:
-                    file.truncate(0)  # Clears the file
+                    file.truncate(0)  
                 return "All messages have been removed."
             except Exception as e:
                 return f"Failed to remove all messages: {str(e)}"
 
-        # Handle `remove <index>` command to remove a specific message
         elif command == 'remove':
             if len(args) < 2:
                 return "`@multilinear remove <index>`"
 
             try:
-                index = int(args[1]) - 1  # Convert to 0-based index
+                index = int(args[1]) - 1  
                 with open(DAFTAR_FILE_PATH, 'r') as file:
                     messages = file.readlines()
 
@@ -198,10 +190,8 @@ async def get_response(user_input: str, message, bot) -> str:
                 if index < 0 or index >= len(messages):
                     return f"1 sampai {len(messages)}."
 
-                # Remove the message at the given index
                 messages.pop(index)
 
-                # Write the updated list of messages back to the file
                 with open(DAFTAR_FILE_PATH, 'w') as file:
                     file.writelines(messages)
 
