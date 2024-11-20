@@ -1,8 +1,8 @@
 import httpx
 import random
 
-API_KEY = 'AIzaSyDujb8krgjEpCpzq3JUBCfYheZRypy17ps'  # Replace with your actual API key
-CX = 'd0e66852d7c644032'  # Replace with your actual Custom Search Engine ID
+API_KEY = 'silly' 
+CX = 'silly' 
 
 async def search_image(query: str) -> str:
     """Search for an image on Google and return the image URL."""
@@ -13,13 +13,12 @@ async def search_image(query: str) -> str:
 
     if response.status_code == 200:
         data = response.json()
-        print(f"Response data: {data}")  # Debugging line
+        print(f"Response data: {data}")  
         image_results = data.get("items", [])
 
         if not image_results:
             return "tidak ada gambar"
 
-        # Pick a random image from the search results
         random_image = random.choice(image_results)
         image_url = random_image['link']
 
@@ -32,17 +31,15 @@ async def handle_image_request(args):
     if not args:
         return "prompt g boleh kosong."
 
-    # Join the arguments to form a single prompt
-    prompt = ' '.join(args)  # Use all args for the prompt
+    prompt = ' '.join(args)  
 
     if not prompt.strip():
         return "prompt g boleh kosong."
 
-    # Get image URL
     image_url = await search_image(prompt)
     
     if image_url.startswith("Error"):
-        return image_url  # If there's an error
+        return image_url  
 
     return f"Here is the image result: {image_url}"
 
